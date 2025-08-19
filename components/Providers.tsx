@@ -7,19 +7,19 @@ import { WagmiProvider } from "wagmi";
 import { avalancheFuji } from "wagmi/chains";
 
 const config = getDefaultConfig({
-  appName: "My RainbowKit App",
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID!,
-  chains: [avalancheFuji],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+	appName: "My RainbowKit App",
+	projectId: process.env.NEXT_PUBLIC_PROJECT_ID!,
+	chains: [avalancheFuji],
+	ssr: true, // If your dApp uses server side rendering (SSR)
 });
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
+	return (
+		<WagmiProvider config={config}>
+			<QueryClientProvider client={queryClient}>
+				<RainbowKitProvider>{children}</RainbowKitProvider>
+			</QueryClientProvider>
+		</WagmiProvider>
+	);
 }
