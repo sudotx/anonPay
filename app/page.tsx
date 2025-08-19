@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
         <div className="flex justify-center mt-4">
           <Image
             src={"https://res.cloudinary.com/dma1c8i6n/image/upload/v1749921073/IMG_9003_tiiioh.jpg"}
-            alt={"azflin"}
+            alt={"anon-pay"}
             className="rounded-xl"
 			priority
 			width={400}
