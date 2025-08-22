@@ -2,6 +2,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import { Providers } from "../components/Providers";
+import Navbar from "@/components/ui/navbar";
 import "./globals.css";
 
 const openSans = Open_Sans({
@@ -11,7 +12,7 @@ const openSans = Open_Sans({
 export const metadata: Metadata = {
 	title: "Anon Pay",
 	description: "Receive payment with Encrypted ERC",
-	icons: "favicon.ico"
+	icons: "favicon.ico",
 };
 
 export default function RootLayout({
@@ -22,7 +23,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${openSans.className} antialiased`}>
-				<Providers>{children}</Providers>
+				<Providers>
+					<Navbar />
+					{children}
+				</Providers>
 			</body>
 		</html>
 	);
