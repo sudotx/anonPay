@@ -10,15 +10,23 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { usePrivateBalance, useWithdraw } from "@/lib/eerc";
+import { useErcAbstractions } from "@/lib/eerc";
 import { useState } from "react";
 import { useAccount } from "wagmi";
+import { formatUnits, parseUnits } from "viem";
 
 export default function WithdrawPage() {
 	const [amount, setAmount] = useState("");
-	const { withdraw } = useWithdraw();
+	const { withdraw, decryptedBalance, decimals } = useErcAbstractions();
 	const { address } = useAccount();
-	const { formatted } = usePrivateBalance(address as `0x${string}`);
+
+	console.log(address)
+
+	const handleWithdraw = async () => {
+		if (!amount) return;
+		const parsedAmount = parseUnits(amount, Number(decimals) || 18);
+		await withdraw(parsedAmount);
+	};
 
 	return (
 		<Container>
@@ -30,7 +38,8 @@ export default function WithdrawPage() {
 					<div className="space-y-4">
 						<div>
 							<p className="text-sm text-gray-500">
-								Private balance: {formatted}
+								Private balance:{" "}
+								{formatUnits(decryptedBalance ?? BigInt(0), Number(decimals) || 18)}
 							</p>
 						</div>
 						<div className="space-y-2">
@@ -45,7 +54,7 @@ export default function WithdrawPage() {
 					</div>
 				</CardContent>
 				<CardFooter>
-					<Button onClick={() => withdraw(amount)}>Withdraw to my address</Button>
+					<Button onClick={handleWithdraw}>Withdraw to my address</Button>
 				</CardFooter>
 			</Card>
 		</Container>

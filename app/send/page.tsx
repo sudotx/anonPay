@@ -10,13 +10,30 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useTransfer } from "@/lib/eerc";
+import { useErcAbstractions } from "@/lib/eerc";
 import { useState } from "react";
+import { parseUnits } from "viem";
 
 export default function SendPage() {
 	const [to, setTo] = useState("");
 	const [amount, setAmount] = useState("");
-	const { transfer } = useTransfer();
+	const { privateTransfer, isAddressRegistered, decimals } =
+		useErcAbstractions();
+
+	const handleTransfer = async () => {
+		if (!to || !amount) return;
+
+		const { isRegistered: isToRegistered } = await isAddressRegistered(
+			to as `0x${string}`
+		);
+		if (!isToRegistered) {
+			alert("Recipient is not registered");
+			return;
+		}
+
+		const parsedAmount = parseUnits(amount, Number(decimals) || 18);
+		await privateTransfer(to, parsedAmount);
+	};
 
 	return (
 		<Container>
@@ -47,9 +64,7 @@ export default function SendPage() {
 					</div>
 				</CardContent>
 				<CardFooter>
-					<Button onClick={() => transfer(to as `0x${string}`, amount)}>
-						Send private
-					</Button>
+					<Button onClick={handleTransfer}>Send private</Button>
 				</CardFooter>
 			</Card>
 		</Container>

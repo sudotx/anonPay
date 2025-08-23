@@ -1,18 +1,32 @@
 "use client";
 import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDeposit, usePrivateBalance } from "@/lib/eerc";
+import { useErcAbstractions } from "@/lib/eerc";
 import { useState } from "react";
 import { useAccount } from "wagmi";
+import { formatUnits, parseUnits } from "viem";
 
 export default function DepositPage() {
 	const [amount, setAmount] = useState("0.0");
-	const { approveAndDeposit } = useDeposit();
+	const { deposit, decryptedBalance, decimals } = useErcAbstractions();
 	const { address } = useAccount();
-	const { formatted } = usePrivateBalance(address as `0x${string}`);
+
+	console.log(address)
+
+	const handleDeposit = async () => {
+		if (!amount) return;
+		const parsedAmount = parseUnits(amount, Number(decimals) || 18);
+		await deposit(parsedAmount);
+	};
 
 	return (
 		<Container>
@@ -33,15 +47,14 @@ export default function DepositPage() {
 						</div>
 						<div>
 							<p className="text-sm text-gray-500">
-								Private balance: {formatted}
+								Private balance:{" "}
+								{formatUnits(decryptedBalance ?? BigInt(0), Number(decimals) || 18)}
 							</p>
 						</div>
 					</div>
 				</CardContent>
 				<CardFooter>
-					<Button onClick={() => approveAndDeposit(amount)}>
-						Approve + Deposit
-					</Button>
+					<Button onClick={handleDeposit}>Approve + Deposit</Button>
 				</CardFooter>
 			</Card>
 		</Container>

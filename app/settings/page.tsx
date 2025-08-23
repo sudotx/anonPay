@@ -8,14 +8,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useExportKey } from "@/lib/eerc";
-import { useState } from "react";
+import { useErcAbstractions } from "@/lib/eerc";
 
 export default function SettingsPage() {
-	const [key, setKey] = useState("");
-	const { setViewingKey } = useExportKey();
+	const { generateDecryptionKey } = useErcAbstractions();
 
 	return (
 		<Container>
@@ -25,21 +21,15 @@ export default function SettingsPage() {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-2">
-						<Label htmlFor="viewing-key">Viewing Key</Label>
-						<Input
-							id="viewing-key"
-							value={key}
-							onChange={(e) => setKey(e.target.value)}
-							placeholder="my-secret-viewing-key"
-						/>
+						<p className="text-sm text-gray-500 mt-2">
+							Generate a decryption key to view your private balances.
+						</p>
 					</div>
-					<p className="text-sm text-gray-500 mt-2">
-						Share this key with auditors to disclose your balances and inbox
-						off-chain.
-					</p>
 				</CardContent>
 				<CardFooter>
-					<Button onClick={() => setViewingKey(key)}>Save key</Button>
+					<Button onClick={() => generateDecryptionKey()}>
+						Generate Decryption Key
+					</Button>
 				</CardFooter>
 			</Card>
 		</Container>
