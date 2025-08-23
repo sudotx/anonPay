@@ -176,7 +176,7 @@ export function ConverterMode({
 						>
 							<button
 								className={
-									"relative group inline-block text-cyber-gray/50 ml-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-none inline-flex items-center transition-colors hover:text-cyber-gray"
+									"relative group text-cyber-gray/50 ml-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-none inline-flex items-center transition-colors hover:text-cyber-gray"
 								}
 								onClick={async () => {
 									await writeContractAsync({
