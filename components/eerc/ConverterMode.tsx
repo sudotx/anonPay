@@ -11,6 +11,7 @@ import { Operations } from "../operations/Operations";
 const eERC_CONVERTER_ADDRESS = CONTRACTS.EERC_CONVERTER;
 const ERC20_ADDRESS = CONTRACTS.ERC20;
 
+// lil
 interface ConverterModeProps {
 	showEncryptedDetails: boolean;
 	setShowEncryptedDetails: (show: boolean) => void;
